@@ -1,0 +1,23 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Screenshot to text</title>
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+</head>
+
+<body>
+  <p>Testing screenshots in Electron</p>
+  <img id="my-preview" />
+  <input id="trigger" value="Fullscreen screenshot" type="button" />
+
+  <script>
+    document.getElementById("trigger").addEventListener("click", () => {
+      handleScreenshotToText();
+    }, false);
+  </script>
+
+  <script src="./renderer.js"></script>
+</body>
+
+</html>
