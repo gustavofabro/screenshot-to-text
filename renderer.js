@@ -1,8 +1,6 @@
 const { desktopCapturer } = require('electron');
 const base64ToImage = require('base64-to-image');
 
-const fs = require('fs')
-
 function handleScreenshotToText() {
   return getScreenshotBase54()
     .then(saveBase64ToImageFile)
@@ -42,28 +40,26 @@ function getScreenshotBase54() {
     };
 
     desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
-      for (const source of sources) {
-        debugger
-        if (source.name === document.title) {
-          try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-              audio: false,
-              video: {
-                mandatory: {
-                  chromeMediaSource: 'desktop',
-                  chromeMediaSourceId: source.id,
-                  minWidth: 1280,
-                  maxWidth: 4000,
-                  minHeight: 720,
-                  maxHeight: 4000
-                }
-              }
-            });
-            handleStream(stream);
-          } catch (e) {
-            reject(e)
+      const sourceEntireScreen = sources
+        .find(source => source.name == 'Entire Screen')
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: false,
+          video: {
+            mandatory: {
+              chromeMediaSource: 'desktop',
+              chromeMediaSourceId: sourceEntireScreen.id,
+              minWidth: 1280,
+              maxWidth: 4000,
+              minHeight: 720,
+              maxHeight: 4000
+            }
           }
-        }
+        });
+        handleStream(stream);
+      } catch (e) {
+        reject(e)
       }
     });
   })
@@ -71,8 +67,8 @@ function getScreenshotBase54() {
 
 function saveBase64ToImageFile(base64Str) {
   const path = './';
-  const optionalObj = { fileName: `file-${Date.now()}`, type: 'png' };
+  const options = { fileName: `file-${Date.now()}`, type: 'png' };
 
-  const { imageType, fileName } = base64ToImage(base64Str, path, optionalObj);
+  const { imageType, fileName } = base64ToImage(base64Str, path, options);
 
 }
