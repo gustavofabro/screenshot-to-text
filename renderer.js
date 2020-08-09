@@ -10,9 +10,7 @@ function handleScreenshotToText() {
 
 function getScreenshotBase54() {
   return new Promise((resolve, reject) => {
-    const _this = this;
-
-    imageFormat = imageFormat || 'image/png';
+    const imageFormat = 'image/png';
 
     function handleStream(stream) {
       const video = document.createElement('video');
@@ -45,6 +43,7 @@ function getScreenshotBase54() {
 
     desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
       for (const source of sources) {
+        debugger
         if (source.name === document.title) {
           try {
             const stream = await navigator.mediaDevices.getUserMedia({
