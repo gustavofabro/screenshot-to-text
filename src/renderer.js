@@ -1,6 +1,7 @@
 const { desktopCapturer } = require('electron')
 const base64ToImage = require('base64-to-image')
 const Jimp = require('jimp')
+const path = require('path')
 
 async function getScreenshotBase64() {
   function getBase64FromStream(stream) {
@@ -84,10 +85,10 @@ async function cropImage(base64data) {
 }
 
 function saveBase64ToImageFile(base64Str) {
-  const path = './'
+  const tmpFolder = path.normalize('tmp/')
   const options = { fileName: `file-${Date.now()}`, type: 'png' }
 
-  const { imageType, fileName } = base64ToImage(base64Str, path, options)
+  const { imageType, fileName } = base64ToImage(base64Str, tmpFolder, options)
 
   console.log(imageType, fileName)
 }
