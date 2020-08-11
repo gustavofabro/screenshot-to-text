@@ -1,24 +1,19 @@
 const { desktopCapturer } = require('electron')
 const base64ToImage = require('base64-to-image')
-const Jimp = require("jimp")
-
-function handleScreenshotToText() {
-  return getScreenshotBase64()
-    .then(cropImage)
-    .then(saveBase64ToImageFile)
-}
+const Jimp = require('jimp')
 
 async function getScreenshotBase64() {
   function getBase64FromStream(stream) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const video = document.createElement('video')
       const imageFormat = 'image/png'
 
       video.style.cssText = 'position:absolutetop:-10000pxleft:-10000px'
 
+      // eslint-disable-next-line func-names
       video.onloadedmetadata = function () {
-        video.style.height = this.videoHeight + 'px'
-        video.style.width = this.videoWidth + 'px'
+        video.style.height = `${this.videoHeight}px`
+        video.style.width = `${this.videoWidth}px`
 
         video.play()
 
@@ -43,8 +38,12 @@ async function getScreenshotBase64() {
     })
   }
 
-  const sources = await desktopCapturer.getSources({ types: ['window', 'screen'] })
-  const sourceEntireScreen = sources.find(source => source.name == 'Entire Screen')
+  const sources = await desktopCapturer.getSources({
+    types: ['window', 'screen']
+  })
+  const sourceEntireScreen = sources.find(
+    source => source.name === 'Entire Screen'
+  )
 
   const stream = await navigator.mediaDevices.getUserMedia({
     audio: false,
@@ -64,13 +63,17 @@ async function getScreenshotBase64() {
 }
 
 async function cropImage(base64data) {
-  const encondedImageBuffer = new Buffer(base64data.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64')
+  const encondedImageBuffer = Buffer.from(
+    base64data.replace(/^data:image\/(png|gif|jpeg);base64,/, ''),
+    'base64'
+  )
+
   const height = window.innerHeight
   const width = window.innerWidth
   const distanceX = window.screenLeft
   const distanceY = window.screenTop
-  const screenHeight = screen.height
-  const screenWidth = screen.width
+  const screenHeight = window.screen.height
+  const screenWidth = window.screen.width
 
   const image = await Jimp.read(encondedImageBuffer)
   image.resize(screenWidth, screenHeight)
@@ -87,4 +90,9 @@ function saveBase64ToImageFile(base64Str) {
   const { imageType, fileName } = base64ToImage(base64Str, path, options)
 
   console.log(imageType, fileName)
+}
+
+// eslint-disable-next-line no-unused-vars
+function handleScreenshotToText() {
+  return getScreenshotBase64().then(cropImage).then(saveBase64ToImageFile)
 }

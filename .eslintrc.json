@@ -1,0 +1,25 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2020": true
+    },
+    "extends": [
+        "airbnb-base",
+        "plugin:prettier/recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 11
+    },
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+        "prettier/prettier": "error",
+        "semi": 0,
+        "comma-dangle": "off"
+      },
+    "settings": {
+      "import/core-modules": [ "electron" ]
+    }
+}
