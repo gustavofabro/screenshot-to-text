@@ -20,8 +20,9 @@
   },
   "dependencies": {
     "base64-to-image": "^1.0.2",
+    "cursor-position": "^1.0.1",
     "fs": "0.0.1-security",
-    "iohook": "^0.6.6",
-    "jimp": "^0.16.0"
+    "jimp": "^0.16.0",
+    "node-mouse": "0.0.2"
   }
 }

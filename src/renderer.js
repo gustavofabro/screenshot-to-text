@@ -3,6 +3,8 @@ const base64ToImage = require('base64-to-image')
 const Jimp = require('jimp')
 const path = require('path')
 
+require('./mouse-handler')
+
 async function getScreenshotBase64() {
   function getBase64FromStream(stream) {
     return new Promise(resolve => {
@@ -90,6 +92,7 @@ function saveBase64ToImageFile(base64Str) {
 
   const { imageType, fileName } = base64ToImage(base64Str, tmpFolder, options)
 
+  // eslint-disable-next-line no-console
   console.log(imageType, fileName)
 }
 
