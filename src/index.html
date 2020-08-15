@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <title>Screenshot to text</title>
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <link rel="stylesheet" href="styles/styles.css">
 </head>
 
 <body>
-  <p>Testing screenshots in Electron</p>
-  <img id="my-preview" />
-  <input id="trigger" value="Fullscreen screenshot" type="button" />
+  <button id="trigger" value="Fullscreen screenshot" type="button">Teste</button>
 
   <script>
     const initRecording = require('./renderer.js')

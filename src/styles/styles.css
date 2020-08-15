@@ -1,0 +1,11 @@
+button {
+  background: red;
+}
+
+body {
+  background-color: rgba(0, 0, 30, 0.15);
+  overflow: hidden;
+  opacity: 0.95;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
