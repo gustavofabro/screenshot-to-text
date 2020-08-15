@@ -65,23 +65,24 @@ async function getScreenshotBase64() {
   return getBase64FromStream(stream)
 }
 
-async function cropImage(base64data) {
+async function cropImage(base64data, coords) {
   const encondedImageBuffer = Buffer.from(
     base64data.replace(/^data:image\/(png|gif|jpeg);base64,/, ''),
     'base64'
   )
 
-  const height = window.innerHeight
-  const width = window.innerWidth
-  const distanceX = window.screenLeft
-  const distanceY = window.screenTop
   const screenHeight = window.screen.height
   const screenWidth = window.screen.width
 
   const image = await Jimp.read(encondedImageBuffer)
   image.resize(screenWidth, screenHeight)
 
-  const cropedImage = await image.crop(distanceX, distanceY, width, height)
+  const cropedImage = await image.crop(
+    coords.initial.x,
+    coords.initial.y,
+    coords.final.x - coords.initial.x,
+    coords.final.y - coords.initial.y
+  )
 
   return cropedImage.getBase64Async('image/png')
 }
@@ -96,6 +97,8 @@ function saveBase64ToImageFile(base64Str) {
   console.log(imageType, fileName)
 }
 
-exports.handleScreenshotToTextArea = () => {
-  return getScreenshotBase64().then(cropImage).then(saveBase64ToImageFile)
+exports.handleScreenshotToTextArea = coords => {
+  return getScreenshotBase64()
+    .then(base64Data => cropImage(base64Data, coords))
+    .then(saveBase64ToImageFile)
 }

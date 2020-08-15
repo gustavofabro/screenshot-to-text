@@ -12,12 +12,12 @@
   <input id="trigger" value="Fullscreen screenshot" type="button" />
 
   <script>
+    const initRecording = require('./renderer.js')
     document.getElementById("trigger").addEventListener("click", () => {
-      handleScreenshotToText();
+      initRecording();
     }, false);
   </script>
 
-  <script src="./renderer.js"></script>
 </body>
 
 </html>
