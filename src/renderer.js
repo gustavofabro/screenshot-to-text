@@ -1,3 +1,9 @@
-const { initRecording } = require('./mouse-handler')
+const { setSelectModeOn } = require('./mouse-handler')
 
-module.exports = initRecording
+const body = document.getElementsByTagName('body')[0]
+
+body.onkeydown = e => {
+  if (e.key === 'Enter') {
+    setSelectModeOn()
+  }
+}

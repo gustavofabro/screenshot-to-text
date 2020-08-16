@@ -8,13 +8,8 @@
 </head>
 
 <body>
-  <button id="trigger" value="Fullscreen screenshot" type="button">Teste</button>
-
-  <script>
-    const initRecording = require('./renderer.js')
-    document.getElementById("trigger").addEventListener("click", () => {
-      initRecording();
-    }, false);
+  <div id="selected-area"></div>
+  <script src="renderer.js">
   </script>
 
 </body>

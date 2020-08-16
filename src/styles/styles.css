@@ -1,11 +1,17 @@
-button {
-  background: red;
-}
-
 body {
-  background-color: rgba(0, 0, 30, 0.15);
+  background-color: rgba(0, 0, 30, 0.50);
   overflow: hidden;
   opacity: 0.95;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
+}
+
+.select-mode:hover {
+  cursor: crosshair;
+}
+
+#selected-area {
+  position: absolute;
+  border: 1px solid #fff;
+  display: none;
 }

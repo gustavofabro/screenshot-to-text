@@ -100,6 +100,5 @@ function saveBase64ToImageFile(base64Str) {
 exports.handleScreenshotToTextArea = async coords => {
   const base64Data = await getScreenshotBase64()
   const cropedImageBase64Str = await cropImage(base64Data, coords)
-
   await saveBase64ToImageFile(cropedImageBase64Str)
 }
