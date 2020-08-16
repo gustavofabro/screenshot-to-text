@@ -2,6 +2,7 @@ const { desktopCapturer } = require('electron')
 const base64ToImage = require('base64-to-image')
 const Jimp = require('jimp')
 const path = require('path')
+const handleOcr = require('./ocr-handler')
 
 require('./mouse-handler')
 
@@ -90,15 +91,15 @@ async function cropImage(base64data, coords) {
 function saveBase64ToImageFile(base64Str) {
   const tmpFolder = path.normalize('tmp/')
   const options = { fileName: `file-${Date.now()}`, type: 'png' }
+  const { fileName } = base64ToImage(base64Str, tmpFolder, options)
 
-  const { imageType, fileName } = base64ToImage(base64Str, tmpFolder, options)
-
-  // eslint-disable-next-line no-console
-  console.log(imageType, fileName)
+  return fileName
 }
 
-exports.handleScreenshotToTextArea = async coords => {
+exports.handleScreenshotToImage = async coords => {
   const base64Data = await getScreenshotBase64()
   const cropedImageBase64Str = await cropImage(base64Data, coords)
-  await saveBase64ToImageFile(cropedImageBase64Str)
+  const imgFileName = await saveBase64ToImageFile(cropedImageBase64Str)
+
+  await handleOcr(imgFileName)
 }

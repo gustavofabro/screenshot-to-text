@@ -23,6 +23,7 @@
     "cursor-position": "^1.0.1",
     "fs": "0.0.1-security",
     "jimp": "^0.16.0",
-    "node-mouse": "0.0.2"
+    "node-mouse": "0.0.2",
+    "tesseract.js": "^2.1.1"
   }
 }

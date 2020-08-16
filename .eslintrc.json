@@ -17,7 +17,9 @@
     "rules": {
         "prettier/prettier": "error",
         "semi": 0,
-        "comma-dangle": "off"
+        "comma-dangle": "off",
+        "no-use-before-define": "off",
+        "no-unused-expressions": "off"
       },
     "settings": {
       "import/core-modules": [ "electron" ]
