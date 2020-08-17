@@ -1,5 +1,6 @@
 const { desktopCapturer } = require('electron')
 const base64ToImage = require('base64-to-image')
+const fs = require('fs')
 const Jimp = require('jimp')
 const path = require('path')
 const handleOcr = require('./ocr-handler')
@@ -96,10 +97,18 @@ function saveBase64ToImageFile(base64Str) {
   return fileName
 }
 
+function removeTmpFile(fileName) {
+  const filePath = path.resolve(__dirname, '..', 'tmp', fileName)
+  fs.unlinkSync(filePath)
+}
+
 exports.handleScreenshotToImage = async coords => {
   const base64Data = await getScreenshotBase64()
   const cropedImageBase64Str = await cropImage(base64Data, coords)
+  // TODO - remove file step and use stream/blob
   const imgFileName = await saveBase64ToImageFile(cropedImageBase64Str)
 
   await handleOcr(imgFileName)
+
+  removeTmpFile(imgFileName)
 }
