@@ -1,6 +1,6 @@
 const { remote } = require('electron')
 const NodeMouse = require('node-mouse')
-const { handleScreenshotToText } = require('./screenshot-handler')
+const { handleScreenshotToText } = require('./screenshot-to-text-handler')
 
 const offsetArea = 5
 const { screen, app } = remote
