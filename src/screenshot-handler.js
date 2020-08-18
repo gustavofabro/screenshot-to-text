@@ -5,8 +5,6 @@ const Jimp = require('jimp')
 const path = require('path')
 const handleOcr = require('./ocr-handler')
 
-require('./mouse-handler')
-
 async function getScreenshotBase64() {
   function getBase64FromStream(stream) {
     return new Promise(resolve => {
@@ -80,10 +78,10 @@ async function cropImage(base64data, coords) {
   image.resize(screenWidth, screenHeight)
 
   const cropedImage = await image.crop(
-    coords.initial.x,
-    coords.initial.y,
-    coords.final.x - coords.initial.x,
-    coords.final.y - coords.initial.y
+    coords.initial.x + 1,
+    coords.initial.y + 1,
+    coords.final.x - 1 - coords.initial.x,
+    coords.final.y - 1 - coords.initial.y
   )
 
   return cropedImage.getBase64Async('image/png')
@@ -102,7 +100,7 @@ function removeTmpFile(fileName) {
   fs.unlinkSync(filePath)
 }
 
-exports.handleScreenshotToImage = async coords => {
+exports.handleScreenshotToText = async coords => {
   const base64Data = await getScreenshotBase64()
   const cropedImageBase64Str = await cropImage(base64Data, coords)
   // TODO - remove file step and use stream/blob
