@@ -107,10 +107,10 @@ function copyTextToClipboard(text) {
 }
 
 exports.handleScreenshotToText = async coords => {
-  const base64Data = await getScreenshotBase64()
-  const cropedImageBase64Str = await cropImage(base64Data, coords)
+  const imageBase64 = await getScreenshotBase64()
+  const cropedImageBase64 = await cropImage(imageBase64, coords)
   // TODO - remove file step and use stream/blob
-  const imgFileName = await saveBase64ToImageFile(cropedImageBase64Str)
+  const imgFileName = await saveBase64ToImageFile(cropedImageBase64)
   const text = await handleOcr(imgFileName)
 
   copyTextToClipboard(text)
