@@ -1,4 +1,6 @@
-const { desktopCapturer, clipboard } = require('electron')
+const { desktopCapturer, clipboard, remote } = require('electron')
+
+const { app } = remote
 const base64ToImage = require('base64-to-image')
 const fs = require('fs')
 const Jimp = require('jimp')
@@ -112,6 +114,7 @@ exports.handleScreenshotToText = async coords => {
   const text = await handleOcr(imgFileName)
 
   copyTextToClipboard(text)
-
   removeTmpFile(imgFileName)
+
+  app.emit(text.trim() ? 'capture-finished-success' : 'capture-finished-fail')
 }

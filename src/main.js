@@ -2,11 +2,11 @@ const { app, BrowserWindow, Tray, Menu } = require('electron')
 const path = require('path')
 
 const assetsFolder = path.resolve(__dirname, 'assets')
+let tray = null
+let win = null
 
 function onReady() {
-  configureTray()
-
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 900,
     height: 600,
     titleBarStyle: 'hidden',
@@ -17,10 +17,16 @@ function onReady() {
     center: true,
     transparent: true,
     frame: false,
+    skipTaskbar: true,
     alwaysOnTop: true
   })
   win.loadFile('index.html')
 
+  configureTray()
+  configureEvents()
+}
+
+function configureEvents() {
   app.on('show-select-area', () => {
     win.show()
     win.maximize()
@@ -29,16 +35,26 @@ function onReady() {
   app.on('hide-window', () => {
     win.hide()
   })
+
+  app.on('capture-finished-success', () => {
+    tray.setImage(`${assetsFolder}/icon-success.png`)
+  })
+
+  app.on('capture-finished-fail', () => {
+    tray.setImage(`${assetsFolder}/icon-fail.png`)
+  })
 }
 
 function configureTray() {
-  const tray = new Tray(`${assetsFolder}/icon.jpg`)
+  tray = new Tray(`${assetsFolder}/icon-default.png`)
+
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'Get text from image',
       type: 'normal',
       click() {
         app.emit('show-select-area')
+        tray.setImage(`${assetsFolder}/icon-default.png`)
         tray.setContextMenu(contextMenu)
       }
     },

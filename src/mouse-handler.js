@@ -34,7 +34,13 @@ mouseEvent.on('mouseup', async event => {
     coords.final = getCurrentMousePositionNormalized(
       screen.getCursorScreenPoint()
     )
+
+    selectedArea.classList.add('loading')
+
     await handleScreenshotToText(coords)
+
+    selectedArea.classList.remove('loading')
+
     setSelectModeOff()
   }
 })
