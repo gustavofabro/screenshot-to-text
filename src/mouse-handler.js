@@ -13,7 +13,7 @@ let isRecording = false
 let isSelectMode = false
 
 mouseEvent.on('mousedown', () => {
-  // tratar click fora do offset e ver se só clicou e soltou
+  // tratar click fora do offset
   if (!coords.initial && isSelectMode && !isRecording) {
     const { x: xOffset, y: yOffset } = screen.getPrimaryDisplay().workArea
 
