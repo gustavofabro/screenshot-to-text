@@ -95,5 +95,3 @@ function clearSelectedArea() {
 }
 
 app.on('show-select-area', setSelectModeOn)
-
-exports.setSelectModeOn = setSelectModeOn
