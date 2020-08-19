@@ -61,7 +61,7 @@ function configureTray() {
     {
       label: 'Minimize',
       type: 'normal',
-      click: () => {
+      click() {
         app.emit('hide-window')
         tray.setContextMenu(contextMenu)
       }
@@ -72,7 +72,9 @@ function configureTray() {
     {
       label: 'Quit',
       type: 'normal',
-      click: () => app.exit()
+      click() {
+        app.exit()
+      }
     }
   ])
 
