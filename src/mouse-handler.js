@@ -29,12 +29,16 @@ mouseEvent.on('mousedown', () => {
   }
 })
 
-mouseEvent.on('mouseup', async event => {
-  if (event.xDelta === 0 && event.yDelta === 0 && isSelectMode) {
-    coords.final = getCurrentMousePositionNormalized(
-      screen.getCursorScreenPoint()
-    )
+mouseEvent.on('mouseup', async () => {
+  if (!isSelectMode) {
+    return
+  }
 
+  coords.final = getCurrentMousePositionNormalized(
+    screen.getCursorScreenPoint()
+  )
+
+  if (isSelectedAreaSizeEnough()) {
     selectedArea.classList.add('loading')
 
     await handleScreenshotToText(coords)
@@ -42,6 +46,9 @@ mouseEvent.on('mouseup', async event => {
     selectedArea.classList.remove('loading')
 
     setSelectModeOff()
+  } else {
+    delete coords.initial
+    isRecording = false
   }
 })
 
@@ -76,7 +83,6 @@ function setRecording() {
 }
 
 function setSelectModeOn() {
-  clearSelectedArea()
   isSelectMode = true
 }
 
@@ -94,4 +100,14 @@ function clearSelectedArea() {
   selectedArea.style.height = '0px'
 }
 
-app.on('show-select-area', setSelectModeOn)
+function isSelectedAreaSizeEnough() {
+  return (
+    Math.abs(coords.initial.x - coords.final.x) > 15 &&
+    Math.abs(coords.initial.y - coords.final.y) > 15
+  )
+}
+
+app.on('show-select-area', () => {
+  clearSelectedArea()
+  setSelectModeOn()
+})
