@@ -2,8 +2,9 @@ const { app, BrowserWindow, Tray, Menu } = require('electron')
 const path = require('path')
 
 const assetsFolder = path.resolve(__dirname, 'assets')
-let tray = null
-let win = null
+
+let tray
+let win
 
 function onReady() {
   win = new BrowserWindow({
@@ -20,6 +21,7 @@ function onReady() {
     skipTaskbar: true,
     alwaysOnTop: true
   })
+
   win.loadFile('index.html')
 
   configureTray()
@@ -36,13 +38,9 @@ function configureEvents() {
     win.hide()
   })
 
-  app.on('capture-finished-success', () => {
-    tray.setImage(`${assetsFolder}/icon-success.png`)
-  })
+  app.on('capture-finished-success', () => {})
 
-  app.on('capture-finished-fail', () => {
-    tray.setImage(`${assetsFolder}/icon-fail.png`)
-  })
+  app.on('capture-finished-fail', () => {})
 }
 
 function configureTray() {

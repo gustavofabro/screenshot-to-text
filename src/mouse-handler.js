@@ -11,8 +11,23 @@ const selectedArea = document.getElementById('selected-area')
 let coords = {}
 let isRecording = false
 let isSelectMode = false
+let isOcrRunning = false
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    app.emit('hide-window')
+  }
+})
+
+function sleep(time = 1000) {
+  return new Promise(resolve => setTimeout(resolve, time))
+}
 
 mouseEvent.on('mousedown', () => {
+  if (isOcrRunning) {
+    return
+  }
+
   // tratar click fora do offset
   if (!coords.initial && isSelectMode && !isRecording) {
     const { x: xOffset, y: yOffset } = screen.getPrimaryDisplay().workArea
@@ -30,7 +45,7 @@ mouseEvent.on('mousedown', () => {
 })
 
 mouseEvent.on('mouseup', async () => {
-  if (!isSelectMode) {
+  if (!isSelectMode || isOcrRunning) {
     return
   }
 
@@ -41,11 +56,15 @@ mouseEvent.on('mouseup', async () => {
   if (isSelectedAreaSizeEnough()) {
     selectedArea.classList.add('loading')
 
+    isOcrRunning = true
     await handleScreenshotToText(coords)
 
-    selectedArea.classList.remove('loading')
+    selectedArea.classList.add('finished')
+    await sleep()
+    selectedArea.classList.remove('loading', 'finished')
 
     setSelectModeOff()
+    isOcrRunning = false
   } else {
     delete coords.initial
     isRecording = false
