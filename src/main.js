@@ -80,4 +80,4 @@ function configureTray() {
   tray.setContextMenu(contextMenu)
 }
 
-app.whenReady().then(() => setTimeout(onReady, 100))
+app.whenReady().then(() => setTimeout(onReady, 300))
