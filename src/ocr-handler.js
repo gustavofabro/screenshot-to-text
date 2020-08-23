@@ -10,7 +10,7 @@ async function handleOcr(imgFileName) {
 async function getTextFromImage(imgFileName) {
   const tmpFolder = path.resolve(__dirname, '..', 'tmp')
 
-  return Tesseract.recognize(`${tmpFolder}/${imgFileName}`)
+  return Tesseract.recognize(`${tmpFolder}/${imgFileName}`, 'eng')
 }
 
 module.exports = handleOcr
