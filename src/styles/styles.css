@@ -1,6 +1,5 @@
 body {
   overflow: hidden;
-  opacity: 0.55;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
 }
@@ -9,17 +8,21 @@ body {
   cursor: crosshair;
 }
 
+.loading:hover {
+  cursor: wait;
+}
+
 #selected-area {
   position: absolute;
   border: 2px solid #CCC;
   display: none;
 }
 
-#selected-area.loading {
+.loading #selected-area {
   animation: anim-loading 5s infinite;
 }
 
-#selected-area.finished {
+.loading.finished #selected-area {
   animation: anim-finished 3s infinite;
 }
 

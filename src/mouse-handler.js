@@ -7,6 +7,7 @@ const { screen, app } = remote
 const mouseEvent = new NodeMouse()
 
 const selectedArea = document.getElementById('selected-area')
+const body = document.getElementsByTagName('body')[0]
 
 let coords = {}
 let isRecording = false
@@ -28,7 +29,6 @@ mouseEvent.on('mousedown', () => {
     return
   }
 
-  // tratar click fora do offset
   if (!coords.initial && isSelectMode && !isRecording) {
     const { x: xOffset, y: yOffset } = screen.getPrimaryDisplay().workArea
 
@@ -54,14 +54,15 @@ mouseEvent.on('mouseup', async () => {
   )
 
   if (isSelectedAreaSizeEnough()) {
-    selectedArea.classList.add('loading')
+    body.classList.remove('select-mode')
+    body.classList.add('loading')
 
     isOcrRunning = true
     await handleScreenshotToText(coords)
 
-    selectedArea.classList.add('finished')
+    body.classList.add('finished')
     await sleep()
-    selectedArea.classList.remove('loading', 'finished')
+    body.classList.remove('loading', 'finished')
 
     setSelectModeOff()
     isOcrRunning = false
@@ -103,6 +104,7 @@ function setRecording() {
 
 function setSelectModeOn() {
   isSelectMode = true
+  body.classList.add('select-mode')
 }
 
 function setSelectModeOff() {
